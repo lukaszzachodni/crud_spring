@@ -68,7 +68,7 @@ public class BookRestController {
     public ResponseEntity<?> deleteBookById(@PathVariable Long id) {
         libraryDatabaseManager.deleteBookById(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("The book has been successfully deleted");
     }
 
     private Author createNewAuthor(String name, String surname) {
