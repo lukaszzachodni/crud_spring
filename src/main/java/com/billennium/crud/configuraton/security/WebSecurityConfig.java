@@ -13,7 +13,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").hasAnyRole("ADMIN")
                 .and()
                 .addFilterBefore(new JSONWebTokenFilter(authenticationManager()), BasicAuthenticationFilter.class);
+
         http.authorizeRequests().antMatchers("/h2").permitAll();
     }
 }

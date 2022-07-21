@@ -17,13 +17,13 @@ import java.util.Set;
 @Setter
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     private Long id;
 
     private String name;
+
     private String surname;
 
     @OneToMany(mappedBy = "author", orphanRemoval = true, cascade = CascadeType.PERSIST)

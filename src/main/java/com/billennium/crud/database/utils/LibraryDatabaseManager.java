@@ -10,16 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class LibraryDatabaseManager {
-
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
 
     public void addBookToDatabase(Book book) {
         bookRepository.save(book);
-    }
-
-    public void removeBookFromDatabase(Book book) {
-        bookRepository.delete(book);
     }
 
     public Iterable<Book> getAllBooksFromDatabase() {
@@ -37,5 +32,4 @@ public class LibraryDatabaseManager {
     public Author getAuthorById(Long id) {
         return authorRepository.findById(id).orElseGet(() -> null);
     }
-
 }

@@ -15,7 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/api")
 public class BookRestController {
-
     private LibraryDatabaseManager libraryDatabaseManager;
 
     @GetMapping("/findAllBooksInLibrary")
@@ -26,14 +25,6 @@ public class BookRestController {
     @GetMapping("/getBookById/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         return ResponseEntity.ok(libraryDatabaseManager.getBookById(id));
-    }
-
-    private Author createNewAuthor(String name, String surname) {
-        return new Author(name, surname);
-    }
-
-    private Optional<Author> isAuthorExistInDatabase(Long authorId) {
-        return Optional.ofNullable(libraryDatabaseManager.getAuthorById(authorId));
     }
 
     @PostMapping(path = "/addNewBook")
@@ -52,7 +43,6 @@ public class BookRestController {
             }
         }
         libraryDatabaseManager.addBookToDatabase(book);
-
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/getBookById").path("/{id}").buildAndExpand(book.getId()).toUri();
 
         return ResponseEntity.created(location).build();
@@ -74,9 +64,18 @@ public class BookRestController {
         return ResponseEntity.ok("The book has been successfully saved");
     }
 
+    @DeleteMapping("/deleteBook/{id}")
     public ResponseEntity<?> deleteBookById(@PathVariable Long id) {
         libraryDatabaseManager.deleteBookById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    private Author createNewAuthor(String name, String surname) {
+        return new Author(name, surname);
+    }
+
+    private Optional<Author> isAuthorExistInDatabase(Long authorId) {
+        return Optional.ofNullable(libraryDatabaseManager.getAuthorById(authorId));
     }
 }

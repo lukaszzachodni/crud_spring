@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Set;
 
 public class JSONWebTokenFilter extends BasicAuthenticationFilter {
-
     public JSONWebTokenFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
@@ -40,12 +39,11 @@ public class JSONWebTokenFilter extends BasicAuthenticationFilter {
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(KEY).parseClaimsJws(header.replace(BEARER, EMPTY_STRING));
         Tuple3<String, String, String> getAllClaims = getClaimsJws(claimsJws);
 
-        String username = getAllClaims._1.toString();
-        String password = getAllClaims._2.toString();
-        String role = getAllClaims._3.toString();
+        String username = getAllClaims._1;
+        String password = getAllClaims._2;
+        String role = getAllClaims._3;
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, password, getAllAuthorities(role));
-        return usernamePasswordAuthenticationToken;
+        return new UsernamePasswordAuthenticationToken(username, password, getAllAuthorities(role));
     }
 
     private String getHeaderFromRequest(HttpServletRequest request) {
@@ -56,6 +54,7 @@ public class JSONWebTokenFilter extends BasicAuthenticationFilter {
         String username = claimsJws.getBody().get("username").toString();
         String password = claimsJws.getBody().get("password").toString();
         String role = claimsJws.getBody().get("role").toString();
+
         return Tuple.of(username, password, role);
     }
 
